@@ -1,0 +1,74 @@
+# ============================================================
+# OpenPAI — Multi-Agent Configuration
+# ============================================================
+# 3 specialized agents working together via the Agent Bus.
+# The General agent handles routing. Research and Strategy
+# provide expertise when needed.
+#
+# Usage:
+#   cp examples/multi-agent/pai.yml config/pai.yml
+#   # Set your environment variables
+#   bun run start
+
+name: TeamPAI
+language: en
+timezone: America/New_York
+
+personality:
+  style: professional
+  proactivity: moderate
+  verbosity: balanced
+
+agents:
+  - id: general
+    name: General
+    description: Main coordinator and all-purpose assistant
+    model: llama-3.3-70b-versatile
+    specialization: coordination
+
+  - id: research
+    name: Research
+    description: Deep research, fact-checking, and web analysis
+    model: llama-3.3-70b-versatile
+    specialization: research
+
+  - id: strategy
+    name: Strategy
+    description: Business strategy, planning, and decision frameworks
+    model: llama-3.3-70b-versatile
+    specialization: strategy
+
+llm:
+  primary:
+    provider: groq
+    model: llama-3.3-70b-versatile
+    apiKey: ${GROQ_API_KEY}
+  fallback:
+    provider: ollama
+    model: llama3
+    baseUrl: http://localhost:11434
+
+storage:
+  provider: file
+  dataDir: ~/.openpai
+
+integrations:
+  telegram:
+    botToken: ${TELEGRAM_BOT_TOKEN}
+    userId: ${TELEGRAM_USER_ID}
+
+tools:
+  enabled:
+    - "*"
+  disabled: []
+  dangerous:
+    - shell
+    - file_delete
+  custom: []
+
+features:
+  semanticCache: false
+  knowledgeGraph: false
+  voiceStreaming: false
+  predictiveMonitor: false
+  agentBus: true

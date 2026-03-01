@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+bun.lock
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Data
+data/
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Config (user's private config)
+config/pai.yml
+
+# Logs
+logs/
+*.log

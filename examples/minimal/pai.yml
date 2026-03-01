@@ -1,0 +1,49 @@
+# ============================================================
+# OpenPAI — Minimal Configuration
+# ============================================================
+# The simplest possible setup: 1 agent, 1 integration.
+# Perfect for getting started quickly.
+#
+# Usage:
+#   cp examples/minimal/pai.yml config/pai.yml
+#   export GROQ_API_KEY=your-key-here
+#   export TELEGRAM_BOT_TOKEN=your-token-here
+#   export TELEGRAM_USER_ID=your-id-here
+#   bun run start
+
+name: MyPAI
+language: en
+timezone: UTC
+
+personality:
+  style: friendly
+  proactivity: minimal
+  verbosity: concise
+
+agents:
+  - id: general
+    name: Assistant
+    description: General-purpose AI assistant
+    model: llama-3.3-70b-versatile
+
+llm:
+  primary:
+    provider: groq
+    model: llama-3.3-70b-versatile
+    apiKey: ${GROQ_API_KEY}
+
+storage:
+  provider: file
+  dataDir: ~/.openpai
+
+integrations:
+  telegram:
+    botToken: ${TELEGRAM_BOT_TOKEN}
+    userId: ${TELEGRAM_USER_ID}
+
+features:
+  semanticCache: false
+  knowledgeGraph: false
+  voiceStreaming: false
+  predictiveMonitor: false
+  agentBus: false

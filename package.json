@@ -1,0 +1,37 @@
+{
+  "name": "openpai",
+  "version": "0.1.0",
+  "description": "OpenPAI — Open-source Personal AI Framework",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun run --watch src/index.ts",
+    "test": "bun test",
+    "build": "bun build src/index.ts --outdir dist --target bun"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "grammy": "^1.21.1",
+    "groq-sdk": "^0.8.0",
+    "yaml": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "keywords": [
+    "ai",
+    "personal-assistant",
+    "multi-agent",
+    "telegram",
+    "framework",
+    "llm",
+    "open-source"
+  ],
+  "license": "MIT",
+  "author": "Marek Skorecki",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skorecky/openpai"
+  }
+}

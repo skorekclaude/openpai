@@ -1,0 +1,102 @@
+# ============================================================
+# OpenPAI Configuration
+# ============================================================
+#
+# This is the main configuration file for your Personal AI.
+# Copy this to `pai.yml` and customize it for your setup.
+#
+# Environment variables: use ${ENV_VAR} syntax for secrets.
+# Example: botToken: ${TELEGRAM_BOT_TOKEN}
+#
+# Docs: https://github.com/skorecky/openpai
+
+# ── Identity ─────────────────────────────────────────────────
+
+name: MyPAI
+language: en
+timezone: America/New_York
+
+# ── Personality ──────────────────────────────────────────────
+# Controls how your PAI communicates.
+
+personality:
+  style: friendly         # professional | casual | friendly | technical
+  proactivity: moderate   # minimal | moderate | proactive
+  verbosity: concise      # concise | balanced | detailed
+
+# ── Agents ───────────────────────────────────────────────────
+# Define specialized AI agents. Each agent has its own role.
+# The first agent is the default handler for incoming messages.
+
+agents:
+  - id: general
+    name: General
+    description: Main assistant for all tasks
+    model: llama-3.3-70b-versatile
+
+# ── LLM Configuration ───────────────────────────────────────
+# Configure which AI models to use.
+# Supported providers: groq, openai, anthropic, ollama
+
+llm:
+  primary:
+    provider: groq
+    model: llama-3.3-70b-versatile
+    apiKey: ${GROQ_API_KEY}
+    temperature: 0.7
+    maxTokens: 2048
+
+  # Optional fallback when primary is unavailable
+  # fallback:
+  #   provider: ollama
+  #   model: llama3
+  #   baseUrl: http://localhost:11434
+
+# ── Storage ──────────────────────────────────────────────────
+# Where PAI stores memory, conversations, and data.
+# Providers: file (default), supabase, sqlite, postgres
+
+storage:
+  provider: file
+  dataDir: ~/.openpai
+
+# ── Integrations ─────────────────────────────────────────────
+# Connect PAI to messaging platforms.
+
+integrations:
+  telegram:
+    botToken: ${TELEGRAM_BOT_TOKEN}
+    userId: ${TELEGRAM_USER_ID}
+
+  # discord:
+  #   botToken: ${DISCORD_BOT_TOKEN}
+  #   guildId: ${DISCORD_GUILD_ID}
+
+  # slack:
+  #   botToken: ${SLACK_BOT_TOKEN}
+
+  # web:
+  #   port: 8090
+  #   apiKey: ${WEB_API_KEY}
+
+# ── Tools ────────────────────────────────────────────────────
+# Control which tools agents can use.
+
+tools:
+  enabled:
+    - "*"                  # Enable all registered tools
+  disabled: []             # Explicitly disable specific tools
+  dangerous:               # Tools requiring human confirmation
+    - shell
+    - file_delete
+  custom: []               # Custom tool modules (advanced)
+
+# ── Features ─────────────────────────────────────────────────
+# Toggle optional features.
+
+features:
+  semanticCache: false      # Cache responses by semantic similarity
+  knowledgeGraph: false     # Build entity relationship graph
+  voiceStreaming: false     # Voice message transcription
+  predictiveMonitor: false  # Proactive monitoring and alerts
+  agentBus: true            # Inter-agent communication

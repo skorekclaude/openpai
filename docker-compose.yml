@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  openpai:
+    build: .
+    env_file: .env
+    volumes:
+      - ./config:/app/config
+      - pai-data:/app/data
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+    depends_on:
+      - supabase-db
+
+  supabase-db:
+    image: supabase/postgres:15
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-openpai}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pai-data:
+  db-data:

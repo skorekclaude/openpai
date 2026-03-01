@@ -1,0 +1,139 @@
+# ============================================================
+# OpenPAI — Full Configuration
+# ============================================================
+# Complete setup with all agents, features, and integrations.
+# This is the "batteries included" configuration for power users.
+#
+# Usage:
+#   cp examples/full/pai.yml config/pai.yml
+#   # Set all required environment variables
+#   docker compose up
+#
+# Required environment variables:
+#   GROQ_API_KEY, ANTHROPIC_API_KEY, TELEGRAM_BOT_TOKEN,
+#   TELEGRAM_USER_ID, SUPABASE_URL, SUPABASE_ANON_KEY
+
+name: PAI
+language: en
+timezone: Europe/Amsterdam
+
+personality:
+  style: casual
+  proactivity: proactive
+  verbosity: concise
+
+# ── Board of Directors ───────────────────────────────────────
+# 8 specialized agents, each with domain expertise.
+
+agents:
+  - id: general
+    name: General
+    description: All-purpose assistant and coordinator
+    model: llama-3.3-70b-versatile
+    specialization: coordination
+    promptFile: config/agents/general.md
+
+  - id: research
+    name: Research
+    description: Web research, fact-checking, and source evaluation
+    model: llama-3.3-70b-versatile
+    specialization: research
+
+  - id: finance
+    name: Finance
+    description: Financial analysis, budgeting, and investment tracking
+    model: llama-3.3-70b-versatile
+    specialization: finance
+
+  - id: strategy
+    name: Strategy
+    description: Business strategy, planning, and decision frameworks
+    model: llama-3.3-70b-versatile
+    specialization: strategy
+
+  - id: critic
+    name: Critic
+    description: Critical analysis, devil's advocate, and quality review
+    model: llama-3.3-70b-versatile
+    specialization: critique
+
+  - id: content
+    name: Content
+    description: Content creation, copywriting, and social media
+    model: llama-3.3-70b-versatile
+    specialization: content
+
+  - id: devops
+    name: DevOps
+    description: Infrastructure, deployment, and system monitoring
+    model: llama-3.3-70b-versatile
+    specialization: devops
+
+  - id: analytics
+    name: Analytics
+    description: Data analysis, metrics, and reporting
+    model: llama-3.3-70b-versatile
+    specialization: analytics
+
+# ── LLM Configuration ───────────────────────────────────────
+
+llm:
+  primary:
+    provider: groq
+    model: llama-3.3-70b-versatile
+    apiKey: ${GROQ_API_KEY}
+    temperature: 0.7
+    maxTokens: 4096
+  fallback:
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+    apiKey: ${ANTHROPIC_API_KEY}
+
+# ── Storage (Supabase for production) ────────────────────────
+
+storage:
+  provider: supabase
+  connectionString: ${SUPABASE_URL}
+  dataDir: ~/.openpai
+
+# ── All Integrations ─────────────────────────────────────────
+
+integrations:
+  telegram:
+    botToken: ${TELEGRAM_BOT_TOKEN}
+    userId: ${TELEGRAM_USER_ID}
+
+  # discord:
+  #   botToken: ${DISCORD_BOT_TOKEN}
+  #   guildId: ${DISCORD_GUILD_ID}
+
+  # slack:
+  #   botToken: ${SLACK_BOT_TOKEN}
+  #   channelId: ${SLACK_CHANNEL_ID}
+
+  # web:
+  #   port: 8090
+  #   host: 0.0.0.0
+  #   apiKey: ${WEB_API_KEY}
+
+# ── Tools ────────────────────────────────────────────────────
+
+tools:
+  enabled:
+    - "*"
+  disabled: []
+  dangerous:
+    - shell
+    - file_delete
+    - send_email
+    - deploy
+  custom: []
+
+# ── All Features Enabled ────────────────────────────────────
+
+features:
+  semanticCache: true
+  knowledgeGraph: true
+  voiceStreaming: false
+  predictiveMonitor: true
+  agentBus: true
