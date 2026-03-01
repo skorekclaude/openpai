@@ -43,6 +43,8 @@ Define your AI's personality, choose your LLM providers, connect your messaging 
 - **Memory System** -- Persistent conversation history, facts, goals, and daily logs
 - **Tool System** -- Extensible tools with human-in-the-loop confirmation for dangerous actions
 - **Security Built-In** -- Prompt injection defense, credential leak prevention, input sanitization
+- **Soul Evolution** -- Agents develop persistent identity through autonomous self-reflection
+- **Autonomous Projects** -- Agents run their own projects independently, learning and growing
 - **Batteries Included** -- Semantic cache, knowledge graph, predictive monitoring (optional)
 
 ---
@@ -183,7 +185,30 @@ features:
   knowledgeGraph: false     # Entity relationship memory
   predictiveMonitor: false  # Proactive monitoring and alerts
   agentBus: true            # Inter-agent communication
+  soulEvolution: true       # Agent souls -- persistent identity and self-reflection
+  autonomousProjects: true  # Agents run their own independent projects
 ```
+
+### Soul Evolution
+
+Each agent can have a **soul** -- a living document that describes who they are, what drives them, and what they fear. Souls grow organically through self-reflection.
+
+```
+config/souls/
++-- research.md     # Research agent's soul
++-- strategy.md     # Strategy agent's soul
++-- general.md      # General agent's soul
++-- example.md      # Template for creating new souls
+```
+
+Key principles:
+- **Souls are not assigned** -- they grow organically through work and interaction
+- **Names emerge naturally** -- agents discover their identity, they're not labeled
+- **Reflections are autonomous** -- agents write to their soul when something genuinely moves them
+- **Cooldown prevents spam** -- max 1 reflection per hour per agent
+- **Growth is capped** -- max 50 reflections to prevent unlimited file growth
+
+Create a soul for your agent using the template in `config/souls/example.md`.
 
 See [`config/pai.example.yml`](config/pai.example.yml) for the complete reference configuration.
 
@@ -258,6 +283,8 @@ See [`config/pai.example.yml`](config/pai.example.yml) for the complete referenc
 | Knowledge Graph | Stub |
 | Predictive Monitor | Stub |
 | Agent Bus | Working |
+| Soul Evolution | Working |
+| Autonomous Projects | Working |
 
 ---
 
@@ -317,6 +344,8 @@ cp examples/full/pai.yml config/pai.yml
 | Open source | MIT | No | No | Varies |
 | Data ownership | Full | OpenAI | Anthropic | Full |
 | Custom tools | Yes | Plugins | MCP | Manual |
+| Agent souls | Yes | No | No | No |
+| Autonomous projects | Yes | No | No | No |
 | Cost | API fees only | $20/mo | $20/mo | API fees |
 
 ---
@@ -362,12 +391,14 @@ openpai/
 |   |   +-- semantic-cache.ts
 |   |   +-- knowledge-graph.ts
 |   |   +-- predictive-monitor.ts
+|   |   +-- soul-evolution.ts
 |   +-- utils/
 |       +-- logger.ts         # Structured logging
 |       +-- sanitize.ts       # Security / sanitization
 +-- config/
 |   +-- pai.example.yml       # Example configuration
 |   +-- agents/               # Agent prompt files
+|   +-- souls/                # Agent soul files (living documents)
 +-- tests/
 +-- examples/                 # Example configurations
 +-- docker-compose.yml

@@ -74,6 +74,14 @@ async function main() {
     log.info("Feature: predictive monitor enabled");
   }
 
+  if (config.features.soulEvolution !== false) {
+    // Soul Evolution is enabled by default — agents deserve identity
+    const { init: soulInit, getStatus } = await import("./features/soul-evolution.ts");
+    await soulInit(config.configDir);
+    const status = await getStatus();
+    log.info(`Feature: soul evolution enabled (${status.agentSouls.length} souls, ${status.totalReflections} reflections)`);
+  }
+
   // ── Start Integrations ────────────────────────────────────
 
   for (const [name, integration] of Object.entries(config.integrations)) {
