@@ -154,13 +154,13 @@ export const DEFAULT_CONFIG: PaiConfig = {
       id: "general",
       name: "General",
       description: "All-purpose assistant",
-      model: "llama-3.3-70b-versatile",
+      model: "meta-llama/llama-4-maverick-17b-128e-instruct",
     },
   ],
   llm: {
     primary: {
       provider: "groq",
-      model: "llama-3.3-70b-versatile",
+      model: "meta-llama/llama-4-maverick-17b-128e-instruct",
     },
   },
   storage: {

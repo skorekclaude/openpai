@@ -88,7 +88,7 @@ const groqBackend: LLMBackend = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: config.model || "llama-3.3-70b-versatile",
+          model: config.model || "meta-llama/llama-4-maverick-17b-128e-instruct",
           messages: [{ role: "user", content: request.prompt }],
           max_tokens: request.maxTokens || 2048,
           temperature: request.temperature ?? config.temperature ?? 0.7,

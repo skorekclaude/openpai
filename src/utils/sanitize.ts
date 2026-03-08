@@ -151,6 +151,34 @@ const OUTPUT_LEAK_PATTERNS = [
   /DATABASE_URL\s*=?\s*postgres/i,
 ];
 
+// ============================================================
+// Hallucinated Tool Call Stripping
+// ============================================================
+
+/**
+ * Strip hallucinated tool calls and responses from LLM output.
+ *
+ * LLMs (especially Llama/Groq) sometimes output XML-style tool call blocks
+ * even in single-turn mode (no agentic loop). These confuse users and
+ * downstream systems.
+ *
+ * Patterns stripped:
+ *   - <tool_call>{"name": "...", "parameters": {...}}</tool_call>
+ *   - <tool_response>{...}</tool_response>
+ *   - [TOOL_CALL: name | PARAMS: {...}]
+ *   - [TOOL_RESULT: ...][/TOOL_RESULT]
+ */
+export function stripToolCalls(text: string): string {
+  return text
+    .replace(/<tool_call>[\s\S]*?<\/tool_call>/g, "")
+    .replace(/<tool_response>[\s\S]*?<\/tool_response>/g, "")
+    .replace(/<function_call>[\s\S]*?<\/function_call>/g, "")
+    .replace(/\[?TOOL_CALL:\s*\w+\s*\|\s*PARAMS:\s*\{[\s\S]*?(\}\s*\]?|$)/g, "")
+    .replace(/\[TOOL_RESULT:[\s\S]*?\[\/TOOL_RESULT\]/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 /**
  * Filter LLM output for leaked credentials.
  *
@@ -174,6 +202,9 @@ export function filterLLMOutput(text: string): {
   if (leaked) {
     log.error("LLM output contained sensitive data -- redacted");
   }
+
+  // Strip hallucinated tool calls (Llama/Groq output these even in single-turn)
+  cleaned = stripToolCalls(cleaned);
 
   return { text: cleaned, leaked };
 }
