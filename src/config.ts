@@ -167,7 +167,9 @@ export const DEFAULT_CONFIG: PaiConfig = {
     provider: "file",
     dataDir: "~/.openpai",
   },
-  integrations: {},
+  integrations: {
+    web: { enabled: true, port: 8090 },
+  },
   tools: {
     enabled: ["*"],
     disabled: [],
